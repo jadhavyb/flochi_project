@@ -1,0 +1,17 @@
+name: Build
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t fastapi-floci-demo .
+      - name: Test Docker image
+        run: docker run --rm fastapi-floci-demo python -c "import app; print('OK')"

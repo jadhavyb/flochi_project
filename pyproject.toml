@@ -1,0 +1,44 @@
+[project]
+name = "fastapi-floci-demo"
+version = "1.0.0"
+description = "FastAPI + PostgreSQL + AWS Cognito + Floci Demo"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "sqlalchemy>=2.0.36",
+    "asyncpg>=0.30.0",
+    "alembic>=1.13.3",
+    "pydantic>=2.9.2",
+    "pydantic-settings>=2.5.2",
+    "boto3>=1.35.34",
+    "python-jose[cryptography]>=3.3.0",
+    "httpx>=0.27.2",
+    "python-multipart>=0.0.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.3",
+    "pytest-asyncio>=0.23.7",
+    "ruff>=0.6.9",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "BLE"]
+ignore = [
+    "B008",  # FastAPI Depends() in argument defaults is idiomatic
+    "BLE001",  # Broad exception handling is intentional in health-check endpoints
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
