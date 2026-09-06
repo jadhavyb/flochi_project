@@ -14,3 +14,4 @@ alembic/versions/*.pyc
 htmlcov/
 *.db
 .DS_Store
+.vscode

@@ -29,7 +29,7 @@ class OAuthStateStore:
         if stored["provider"] != provider:
             return None
         created = stored["created_at"]
-        if (datetime.now(UTC) - created).total_seconds() > settings.oauth_state_ttl:
+        if (datetime.now(UTC) - created).total_seconds() > settings.OAUTH_STATE_TTL:
             del self._states[state]
             return None
         return stored
@@ -49,21 +49,21 @@ class OAuthService:
         self.cognito = CognitoClient()
 
     def get_authorization_url(self, provider: str, redirect_uri: str) -> tuple[str, str]:
-        if provider == "google" and not settings.google_sso_enabled:
+        if provider == "google" and not settings.GOOGLE_SSO_ENABLED:
             raise ValueError("Google SSO is not enabled")
-        if provider == "apple" and not settings.apple_sso_enabled:
+        if provider == "apple" and not settings.APPLE_SSO_ENABLED:
             raise ValueError("Apple SSO is not enabled")
 
         state = oauth_state_store.create_state(provider, redirect_uri)
         nonce = secrets.token_urlsafe(16)
 
         base_url = (
-            settings.aws_endpoint_url
-            or f"https://{settings.cognito_user_pool_id}.auth.{settings.aws_region}.amazoncognito.com"
+            settings.AWS_ENDPOINT_URL
+            or f"https://{settings.COGNITO_USER_POOL_ID}.auth.{settings.AWS_REGION}.amazoncognito.com"
         )
         url = (
             f"{base_url}/oauth2/authorize"
-            f"?client_id={settings.cognito_client_id}"
+            f"?client_id={settings.COGNITO_CLIENT_ID}"
             f"&response_type=code"
             f"&scope=openid+email+profile"
             f"&redirect_uri={redirect_uri}"
@@ -90,8 +90,8 @@ class OAuthService:
 
     def get_providers(self) -> list[dict[str, Any]]:
         providers = []
-        if settings.google_sso_enabled:
+        if settings.GOOGLE_SSO_ENABLED:
             providers.append({"name": "google", "enabled": True})
-        if settings.apple_sso_enabled:
+        if settings.APPLE_SSO_ENABLED:
             providers.append({"name": "apple", "enabled": True})
         return providers

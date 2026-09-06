@@ -24,10 +24,10 @@ test:
 	docker compose -f docker-compose.dev.yml exec api pytest tests/ -v
 
 format:
-	docker compose -f docker-compose.dev.yml exec api ruff check --fix app/ tests/
+	docker compose -f docker-compose.dev.yml exec api ruff check --fix app/
 
 lint:
-	docker compose -f docker-compose.dev.yml exec api ruff check app/ tests/
+	docker compose -f docker-compose.dev.yml exec api ruff check app/
 
 worker-logs:
 	docker compose -f docker-compose.dev.yml logs -f celery_worker

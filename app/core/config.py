@@ -1,49 +1,56 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=(".env", ".env.dev"),
+        env_file=BASE_DIR / ".env.dev",
+        case_sensitive=True,
+        env_file_encoding="utf-8",
         extra="ignore",
     )
 
-    app_name: str = "FastAPI Floci Demo"
-    app_env: str = "development"
-    debug: bool = True
-    api_v1_prefix: str = "/api/v1"
+    APP_NAME: str = "FastAPI Floci Demo"
+    APP_ENV: str = "development"
+    DEBUG: bool = True
+    API_V1_PREFIX: str = "/api/v1"
 
-    database_url: str = "postgresql+asyncpg://postgres:postgres@postgres:5432/dev_db"
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@postgres:5432/dev_db"
+    TEST_DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/dev_db"
 
-    redis_url: str = "redis://redis:6379/0"
+    REDIS_URL: str = "redis://redis:6379/0"
 
-    aws_region: str = "us-east-1"
-    aws_access_key_id: str = "test"
-    aws_secret_access_key: str = "test"
-    aws_endpoint_url: str | None = "http://floci:4566"
+    AWS_REGION: str = ""
+    AWS_ACCESS_KEY_ID: str = ""
+    AWS_SECRET_ACCESS_KEY: str = ""
+    AWS_ENDPOINT_URL: str | None = ""
 
-    cognito_user_pool_id: str = ""
-    cognito_client_id: str = ""
-    cognito_client_secret: str = ""
+    COGNITO_USER_POOL_ID: str = ""
+    COGNITO_CLIENT_ID: str = ""
+    COGNITO_CLIENT_SECRET: str = ""
 
-    jwt_issuer: str = ""
-    jwt_audience: str = ""
+    JWT_ISSUER: str = ""
+    JWT_AUDIENCE: str = ""
 
-    s3_bucket_name: str = "demo-bucket"
+    S3_BUCKET_NAME: str = "demo-bucket"
 
-    celery_broker_url: str = "redis://redis:6379/0"
-    celery_result_backend: str = "redis://redis:6379/1"
+    CELERY_BROKER_URL: str = "redis://redis:6379/0"
+    CELERY_RESULT_BACKEND: str = "redis://redis:6379/1"
 
-    google_sso_enabled: bool = False
-    google_client_id: str = ""
-    google_client_secret: str = ""
+    GOOGLE_SSO_ENABLED: bool = False
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: str = ""
 
-    apple_sso_enabled: bool = False
-    apple_client_id: str = ""
-    apple_team_id: str = ""
-    apple_key_id: str = ""
-    apple_private_key: str = ""
+    APPLE_SSO_ENABLED: bool = False
+    APPLE_CLIENT_ID: str = ""
+    APPLE_TEAM_ID: str = ""
+    APPLE_KEY_ID: str = ""
+    APPLE_PRIVATE_KEY: str = ""
 
-    oauth_state_ttl: int = 600
+    OAUTH_STATE_TTL: int = 600
 
 
 settings = Settings()

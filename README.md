@@ -115,7 +115,7 @@ terraform/
 
 ```env
 APP_ENV=development
-DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/demo_db
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/dev_db
 REDIS_URL=redis://redis:6379/0
 AWS_REGION=us-east-1
 AWS_ACCESS_KEY_ID=test

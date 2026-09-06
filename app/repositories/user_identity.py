@@ -8,7 +8,9 @@ class UserIdentityRepository:
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def get_by_provider_and_subject(self, provider: str, provider_subject: str) -> UserIdentity | None:
+    async def get_by_provider_and_subject(
+        self, provider: str, provider_subject: str
+    ) -> UserIdentity | None:
         result = await self.db.execute(
             select(UserIdentity).where(
                 UserIdentity.provider == provider,
@@ -19,10 +21,9 @@ class UserIdentityRepository:
 
     async def get_by_user_id(self, user_id) -> list[UserIdentity]:
         import uuid
+
         uid = uuid.UUID(str(user_id))
-        result = await self.db.execute(
-            select(UserIdentity).where(UserIdentity.user_id == uid)
-        )
+        result = await self.db.execute(select(UserIdentity).where(UserIdentity.user_id == uid))
         return list(result.scalars().all())
 
     async def delete(self, identity: UserIdentity) -> None:

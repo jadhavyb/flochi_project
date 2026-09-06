@@ -13,7 +13,7 @@ class HealthFilter(logging.Filter):
 
 def setup_logging() -> None:
     logging.basicConfig(
-        level=logging.DEBUG if settings.debug else logging.INFO,
+        level=logging.DEBUG if settings.DEBUG else logging.INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         stream=sys.stdout,
     )

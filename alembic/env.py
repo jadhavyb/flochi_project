@@ -14,9 +14,8 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-from app.core.config import settings
-
-from app.core.database import Base
+from app.core.database import Base  # noqa: E402
+from app.models import item, user, user_identity  # noqa: E402, F401
 
 target_metadata = Base.metadata
 

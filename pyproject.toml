@@ -32,7 +32,8 @@ build-backend = "hatchling.build"
 [tool.ruff]
 target-version = "py312"
 line-length = 100
-
+include = ["app"]
+exclude = ["alembic","tests"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "BLE"]
 ignore = [

@@ -13,10 +13,10 @@ class AWSClientFactory:
     def _client_kwargs(service_name: str) -> dict[str, Any]:
         return {
             "service_name": service_name,
-            "region_name": settings.aws_region,
-            "aws_access_key_id": settings.aws_access_key_id,
-            "aws_secret_access_key": settings.aws_secret_access_key,
-            "endpoint_url": settings.aws_endpoint_url,
+            "region_name": settings.AWS_REGION,
+            "aws_access_key_id": settings.AWS_ACCESS_KEY_ID,
+            "aws_secret_access_key": settings.AWS_SECRET_ACCESS_KEY,
+            "endpoint_url": settings.AWS_ENDPOINT_URL,
         }
 
     @classmethod

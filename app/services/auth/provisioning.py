@@ -1,11 +1,8 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from typing import Any
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.security import CognitoClaims, verify_access_token
+from app.core.security import CognitoClaims
 from app.models.user import User
 from app.models.user_identity import UserIdentity
 from app.repositories.user import UserRepository
@@ -53,7 +50,9 @@ class ProvisioningService:
             return await self.user_repo.get_by_id(identity.user_id)
         return None
 
-    async def link_identity(self, user: User, provider: str, provider_subject: str, email: str | None) -> UserIdentity:
+    async def link_identity(
+        self, user: User, provider: str, provider_subject: str, email: str | None
+    ) -> UserIdentity:
         existing = await self.identity_repo.get_by_provider_and_subject(provider, provider_subject)
         if existing:
             if existing.user_id != user.id:

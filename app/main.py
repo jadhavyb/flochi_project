@@ -10,10 +10,10 @@ from app.core.redis import get_redis
 setup_logging()
 
 app = FastAPI(
-    title=settings.app_name,
+    title=settings.APP_NAME,
     description="FastAPI + PostgreSQL + AWS Cognito + Floci Demo",
     version="1.0.0",
-    debug=settings.debug,
+    debug=settings.DEBUG,
 )
 
 app.add_middleware(
@@ -27,7 +27,7 @@ app.add_middleware(
 
 @app.get("/health", tags=["Health"])
 async def health() -> dict:
-    return {"status": "ok", "environment": settings.app_env}
+    return {"status": "ok", "environment": settings.APP_ENV}
 
 
 @app.get("/health/db", tags=["Health"])

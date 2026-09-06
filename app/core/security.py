@@ -28,17 +28,17 @@ class CognitoClaims:
 
 
 async def _get_cognito_public_keys() -> list[dict[str, Any]]:
-    if not settings.cognito_user_pool_id or not settings.aws_region:
+    if not settings.COGNITO_USER_POOL_ID or not settings.AWS_REGION:
         raise CognitoJWTError("Cognito User Pool ID and AWS region must be configured")
 
     url = (
-        f"https://cognito-idp.{settings.aws_region}.amazonaws.com/"
-        f"{settings.cognito_user_pool_id}/.well-known/jwks.json"
+        f"https://cognito-idp.{settings.AWS_REGION}.amazonaws.com/"
+        f"{settings.COGNITO_USER_POOL_ID}/.well-known/jwks.json"
     )
 
     async with httpx.AsyncClient() as client:
-        if settings.aws_endpoint_url:
-            response = await client.get(url, base_url=settings.aws_endpoint_url)
+        if settings.AWS_ENDPOINT_URL:
+            response = await client.get(url, base_url=settings.AWS_ENDPOINT_URL)
         else:
             response = await client.get(url)
         response.raise_for_status()
@@ -49,10 +49,10 @@ def _verify_token_claims(claims: dict[str, Any], token_use: str) -> None:
     if claims.get("token_use") != token_use:
         raise CognitoJWTError(f"Invalid token use: expected {token_use}")
 
-    if claims.get("iss") != settings.jwt_issuer:
+    if claims.get("iss") != settings.JWT_ISSUER:
         raise CognitoJWTError(f"Invalid issuer: {claims.get('iss')}")
 
-    if claims.get("aud") not in (settings.jwt_audience, settings.cognito_client_id):
+    if claims.get("aud") not in (settings.JWT_AUDIENCE, settings.COGNITO_CLIENT_ID):
         raise CognitoJWTError("Invalid audience")
 
     if time.time() > claims.get("exp", 0):
@@ -86,7 +86,7 @@ async def verify_access_token(token: str) -> CognitoClaims:
             token,
             public_key,
             algorithms=["RS256"],
-            issuer=settings.jwt_issuer,
+            issuer=settings.JWT_ISSUER,
             options={"verify_aud": False},
         )
     except ExpiredSignatureError as exc:

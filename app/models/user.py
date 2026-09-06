@@ -29,4 +29,6 @@ class User(Base):
     )
 
     items: Mapped[list[Item]] = relationship(back_populates="owner", cascade="all, delete-orphan")
-    identities: Mapped[list[UserIdentity]] = relationship(back_populates="user", cascade="all, delete-orphan")
+    identities: Mapped[list[UserIdentity]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )

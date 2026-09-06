@@ -9,7 +9,7 @@ from app.integrations.aws.clients import AWSClientFactory
 class S3Service:
     def __init__(self):
         self.client = AWSClientFactory.create_client("s3")
-        self.bucket = settings.s3_bucket_name
+        self.bucket = settings.S3_BUCKET_NAME
 
     async def upload(self, key: str, data: bytes, content_type: str) -> dict[str, Any]:
         import asyncio
